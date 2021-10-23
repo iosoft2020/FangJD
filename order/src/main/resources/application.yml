@@ -1,0 +1,42 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: order
+  datasource:
+    #MySQL配置
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.56.66:3306/gulimall_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  thymeleaf:
+    cache: false
+#  mvc: 
+#     hiddenmethod:
+#       filter:
+#         enabled: true
+#  mvc:
+#    date-format: yyyy/MM/dd
+
+
+#logging:
+#  level:
+#    com.iosoft2020: debug
+#    root: warn
+#  pattern:
+#    console: "%d{yyyy-MM-dd} [%thread] - %msg%n"
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+  mapper-locations: classpath:/mapper/**/*.xml
+#mybatis:
+#  configuration:#    map-underscore-to-camel-case: true
+#  type-aliases-package: com.iosoft2020.entity
+#  mapper-locations: classpath:/mapper/**/*.xml
