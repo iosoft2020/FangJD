@@ -1,7 +1,11 @@
 package com.iosoft.mall.product.mapper;
 
-import com.iosoft.mall.product.pojo.Attr;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.iosoft.mall.product.pojo.Attr;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AttrMapper extends BaseMapper<Attr> {
 
+    List<Long> selectSearchAttrIds(@Param("attrIds") List<Long> attrIds);
 }

@@ -1,7 +1,9 @@
 package com.iosoft.mall.product.service;
 
-import com.iosoft.mall.product.pojo.Attr;
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.iosoft.mall.product.pojo.Attr;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AttrService extends IService<Attr> {
 
+    List<Long> selectSearchAttrIds(List<Long> attrIds);
 }

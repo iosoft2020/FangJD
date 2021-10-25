@@ -1,7 +1,9 @@
 package com.iosoft.mall.product.service;
 
-import com.iosoft.mall.product.pojo.SkuInfo;
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.iosoft.mall.product.pojo.SkuInfo;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SkuInfoService extends IService<SkuInfo> {
 
+    List<SkuInfo> getSkusBySpuId(Long spuId);
 }

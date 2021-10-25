@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>IOSOFT</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" th:href="@{/webjars/AdminLTE/3.0.5/plugins/fontawesome-free/css/all.min.css}">
+  <!-- IonIcons -->
+  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/webjars/AdminLTE/3.0.5/dist/css/adminlte.min.css}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- tobbar -->
+  <div th:replace="commons/bar::topbar"></div>
+  <!-- /.tobbar -->
+
+  <!-- menubar -->
+  <div th:replace="commons/bar::menubar(activeUri='Brand')"></div>
+  <!-- /.menubar -->
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 th:text="${brand}==null?'添加品牌':'修改品牌'">添加品牌</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+	<!-- body -->
+	<section class="content">
+
+	    <!-- box col-12 -->
+	    <div class="box box-primary">
+	        <form th:action="@{/product/brand/}" method="post">
+	        <input type="hidden" name="_method" value="put" th:if="${brand}!=null">
+	        <input type="hidden" name="id" th:if="${brand}!=null" th:value="${brand.id}">
+	        <div class="box-body">
+	                <div class="form-group">
+	                    <label>品牌名</label>
+	                    <input type="text" class="form-control" name="name" th:value="${brand}!=null?${brand.name}" >
+<!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+	                     <p th:if="${errmsg} != null" th:text="${errmsg}" style="color:red;"></p>
+	                </div>
+	                <div class="form-group">
+	                    <label>品牌logo地址</label>
+	                    <input type="text" class="form-control" name="logo" th:value="${brand}!=null?${brand.logo}" >
+	                </div>
+	                <div class="form-group">
+	                    <label>介绍</label>
+	                    <input type="text" class="form-control" name="descript" th:value="${brand}!=null?${brand.descript}" >
+<!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+	                     <p th:if="${errmsg} != null" th:text="${errmsg}" style="color:red;"></p>
+	                </div>
+	                <div class="form-group">
+	                    <label>显示状态</label>
+						<div class="bootstrap-switch-container" style="width: 128px; margin-left: 0px;">
+						<input  type="checkbox" name="showStatus" checked="" data-bootstrap-switch="" data-off-color="danger" data-on-color="success">
+						</div>
+                    </div>
+
+	        </div>
+	        <div class="box-footer">
+	            <button type="submit" class="btn btn-primary" th:text="${brand}==null?'Add':'Edit'">Submit</button>
+	        </div>
+	        </form>
+	    </div>
+	</section>
+
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- footbar -->
+  <div th:replace="commons/bar::footbar"></div>
+  <!-- /.footbar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script th:src="@{/webjars/AdminLTE/3.0.5/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE -->
+<script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/adminlte.js}"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<script th:src="@{/webjars/AdminLTE/3.0.5/plugins/chart.js/Chart.min.js}"></script>
+<script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/demo.js}"></script>
+<script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/pages/dashboard3.js}"></script>
+<!-- Bootstrap Switch -->
+<script th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+<!-- page script -->
+<script>
+//     $(".deleteBtn").click(function(){
+//         $("#deleteEmployeeForm").attr("action",$(this).attr("del_uri")).submit();
+//         return false;
+//     });
+
+
+
+
+
+$(function () {
+
+    $("input[data-bootstrap-switch]").each(function(){
+          $(this).bootstrapSwitch('state', 'checked');
+    })
+
+})
+
+
+</script>
+</body>
+</html>

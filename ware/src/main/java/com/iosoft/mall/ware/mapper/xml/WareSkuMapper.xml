@@ -2,4 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iosoft.mall.ware.mapper.WareSkuMapper">
 
+    <select id="getTotalStock" resultType="java.lang.Integer">
+        SELECT SUM(stock-stock_locked) from wms_ware_sku where sku_id=#{id}
+    </select>
 </mapper>

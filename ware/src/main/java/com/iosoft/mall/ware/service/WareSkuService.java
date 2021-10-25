@@ -1,7 +1,10 @@
 package com.iosoft.mall.ware.service;
 
-import com.iosoft.mall.ware.pojo.WareSku;
+import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.iosoft.mall.common.to.es.SkuHasStockTo;
+import com.iosoft.mall.ware.pojo.WareSku;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface WareSkuService extends IService<WareSku> {
 
+    List<SkuHasStockTo> getSkuHasStocks(List<Long> ids);
 }

@@ -39,11 +39,11 @@ public class LoginController {
 
     @RequestMapping("/login.html")
     public String loginPage(HttpSession session) {
-        //        if (session.getAttribute(AuthServerConstant.LOGIN_USER) != null) {
-        //            return "redirect:http://gulimall.com/";
-        //        }else {
-        return "login";
-        //        }
+        if (session.getAttribute(AuthServerConstant.LOGIN_USER) != null) {
+            return "redirect:http://iosoftmall.com/";
+        } else {
+            return "login";
+        }
     }
 
     @PostMapping("/login")

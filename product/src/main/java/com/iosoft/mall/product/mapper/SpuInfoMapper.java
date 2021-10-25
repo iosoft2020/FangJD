@@ -1,7 +1,9 @@
 package com.iosoft.mall.product.mapper;
 
-import com.iosoft.mall.product.pojo.SpuInfo;
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.iosoft.mall.product.pojo.SpuInfo;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SpuInfoMapper extends BaseMapper<SpuInfo> {
 
+    void upSpuStatus(@Param("spuId") Long spuId, @Param("code") int code);
 }

@@ -1,7 +1,9 @@
 package com.iosoft.mall.ware.mapper;
 
-import com.iosoft.mall.ware.pojo.WareSku;
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.iosoft.mall.ware.pojo.WareSku;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface WareSkuMapper extends BaseMapper<WareSku> {
 
+    Integer getTotalStock(@Param("id") Long id);
 }

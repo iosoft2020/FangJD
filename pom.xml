@@ -178,5 +178,6 @@
         <module>third-party</module>
         <module>ware</module>
         <module>auth</module>
+        <module>search</module>
     </modules>
 </project>

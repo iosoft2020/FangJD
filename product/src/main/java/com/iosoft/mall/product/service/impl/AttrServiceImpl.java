@@ -1,10 +1,13 @@
 package com.iosoft.mall.product.service.impl;
 
-import com.iosoft.mall.product.pojo.Attr;
-import com.iosoft.mall.product.mapper.AttrMapper;
-import com.iosoft.mall.product.service.AttrService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.iosoft.mall.product.mapper.AttrMapper;
+import com.iosoft.mall.product.pojo.Attr;
+import com.iosoft.mall.product.service.AttrService;
 
 /**
  * <p>
@@ -17,4 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements AttrService {
 
+    @Override
+    public List<Long> selectSearchAttrIds(List<Long> attrIds) {
+        return baseMapper.selectSearchAttrIds(attrIds);
+    }
 }
