@@ -25,14 +25,14 @@ public class ElasticSaveController {
 
     @PostMapping("/product")
     public R saveProducts2Es(@RequestBody List<SkuEsModel> skuEsModels) {
-        boolean status = false;
+        boolean hasFailures = false;
         try {
-            status = productSaveService.saveProducts2Es(skuEsModels);
+            hasFailures = productSaveService.saveProducts2Es(skuEsModels);
         } catch (Exception e) {
             log.error("商品上架错误:{}", e);
             return R.error(BizCodeEnum.PRODUCT_UP_EXCEPTION.getCode(), BizCodeEnum.PRODUCT_UP_EXCEPTION.getMsg());
         }
-        if (status) {
+        if (!hasFailures) {
             return R.ok();
         } else {
             return R.error(BizCodeEnum.PRODUCT_UP_EXCEPTION.getCode(), BizCodeEnum.PRODUCT_UP_EXCEPTION.getMsg());

@@ -34,12 +34,12 @@ spring:
 #    date-format: yyyy/MM/dd
 
 
-#logging:
-#  level:
-#    com.iosoft.mall.product.service.impl: debug
-#    root: warn
-#  pattern:
-#    console: "%d{yyyy-MM-dd} [%thread] - %msg%n"
+logging:
+  level:
+    com.iosoft.mall.product.mapper: debug
+    root: warn
+  pattern:
+    console: "%d{yyyy-MM-dd} [%thread] - %msg%n"
 
 mybatis-plus:
   global-config:

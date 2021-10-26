@@ -10,7 +10,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.iosoft.mall.fein")
+@EnableFeignClients(basePackages = "com.iosoft.mall.product.feign")
 @MapperScan("com.iosoft.mall.product.mapper")
 @EnableCaching
 @EnableRedisHttpSession

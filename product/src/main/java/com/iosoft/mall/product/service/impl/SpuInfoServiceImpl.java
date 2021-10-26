@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iosoft.mall.common.constant.ProductConstant;
@@ -88,8 +89,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
         Map<Long, Boolean> stockMap = null;
         try {
             List<Long> longList = skuInfoEntities.stream().map(SkuInfo::getSkuId).collect(Collectors.toList());
-            R<List<SkuHasStockTo>> skuHasStocks = wareFeignService.getSkuHasStocks(longList);
-            stockMap = skuHasStocks.getData().stream()
+            R skuHasStocks = wareFeignService.getSkuHasStocks(longList);
+            stockMap = skuHasStocks.getData(new TypeReference<List<SkuHasStockTo>>() {
+            }).stream()
                     .collect(Collectors.toMap(SkuHasStockTo::getSkuId, SkuHasStockTo::getHasStock));
         } catch (Exception e) {
             log.error("远程调用库存服务失败,原因{}", e);
