@@ -20,6 +20,10 @@ spring:
           uri: https://www.qq.com/
           predicates:
             - Query=url, qq
+        - id: search_route
+          uri: lb://search
+          predicates:
+            - Host=search.iosoftmall.com
         - id: auth_route
           uri: lb://auth
           predicates:
@@ -27,4 +31,4 @@ spring:
         - id: product_route
           uri: lb://product
           predicates:
-            - Host=**.iosoftmall.com,*.iosoftmall.com 
+            - Host=iosoftmall.com 
