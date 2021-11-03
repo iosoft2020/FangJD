@@ -14,5 +14,5 @@ import com.iosoft.mall.product.pojo.CategoryBrandRelation;
  */
 public interface CategoryBrandRelationService extends IService<CategoryBrandRelation> {
 
-    void updateCategory(Category category);
+    public void updateCategory(Category category);
 }

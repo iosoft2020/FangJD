@@ -14,4 +14,6 @@ import com.iosoft.mall.product.pojo.SpuInfo;
 public interface SpuInfoService extends IService<SpuInfo> {
 
     void up(Long spuId);
+
+    void down(Long spuId);
 }

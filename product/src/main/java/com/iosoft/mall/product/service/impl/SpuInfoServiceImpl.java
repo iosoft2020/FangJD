@@ -127,4 +127,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
             log.error("商品远程es保存失败");
         }
     }
+
+    @Override
+    public void down(Long spuId) {
+        this.baseMapper.upSpuStatus(spuId, ProductConstant.ProductStatusEnum.NEW_SPU.getCode());
+
+    }
 }

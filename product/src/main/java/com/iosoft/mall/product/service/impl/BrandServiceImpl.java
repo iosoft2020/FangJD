@@ -19,9 +19,18 @@ import com.iosoft.mall.product.service.BrandService;
  */
 @Service
 public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements BrandService {
+
+
     @Override
     public List<Brand> list() {
 
         return baseMapper.selectList(null);
+    }
+
+
+    @Override
+    public void delete(int id) {
+        baseMapper.deleteById(id);
+
     }
 }

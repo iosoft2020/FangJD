@@ -39,6 +39,17 @@ public class ProductController {
         return "Product/list";
     }
 
+    /**
+     * 商品下架
+     * @return
+     */
+    @GetMapping("/{spuId}/down")
+    public String downSpuForSearch(@PathVariable("spuId") Long spuId, Model model) {
+        spuInfoService.down(spuId);
+        model.addAttribute("products", spuInfoService.list());
+        return "Product/list";
+    }
+
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("products", spuInfoService.list());

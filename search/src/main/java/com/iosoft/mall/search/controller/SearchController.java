@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.iosoft.mall.search.service.SearchService;
 import com.iosoft.mall.search.vo.SearchParam;
+import com.iosoft.mall.search.vo.SearchResult;
 
 @Controller
 public class SearchController {
@@ -20,9 +21,9 @@ public class SearchController {
 
     @GetMapping(value = {"/search.html","/"})
     public String getSearchPage(SearchParam searchParam, Model model, HttpServletRequest request) {
-//        searchParam.set_queryString(request.getQueryString());
-//        SearchResult result=searchService.getSearchResult(searchParam);
-//        model.addAttribute("result", result);
+        searchParam.set_queryString(request.getQueryString());
+        SearchResult result = searchService.getSearchResult(searchParam);
+        model.addAttribute("result", result);
         return "search";
     }
 }

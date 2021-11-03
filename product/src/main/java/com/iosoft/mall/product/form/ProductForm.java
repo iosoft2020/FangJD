@@ -1,5 +1,6 @@
 package com.iosoft.mall.product.form;
 
+
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;

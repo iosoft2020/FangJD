@@ -15,6 +15,8 @@ import com.iosoft.mall.product.pojo.Brand;
  */
 public interface BrandService extends IService<Brand> {
 
-    List<Brand> list();
+    public List<Brand> list();
+
+    public void delete(int id);
 
 }

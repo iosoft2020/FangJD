@@ -107,9 +107,14 @@
                       <td th:text="${product.updateTime}"></td>
                       <td class="project-actions text-left">
                           <a class="btn btn-info btn-sm" th:href="@{/product/}+${product.id}+'/up'">
-                              <i class="fas fa-pencil-alt">
+                              <i class="fas fa-arrow-up">
                               </i>
                               上架
+                          </a>
+                          <a class="btn btn-info btn-sm" th:href="@{/product/}+${product.id}+'/down'">
+                              <i class="fas fa-arrow-down">
+                              </i>
+                              下架
                           </a>
                       </td>
                   </tr>

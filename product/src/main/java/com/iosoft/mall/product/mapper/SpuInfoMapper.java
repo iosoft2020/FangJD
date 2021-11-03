@@ -16,4 +16,6 @@ import com.iosoft.mall.product.pojo.SpuInfo;
 public interface SpuInfoMapper extends BaseMapper<SpuInfo> {
 
     void upSpuStatus(@Param("spuId") Long spuId, @Param("code") int code);
+
+    void downSpuStatus(@Param("spuId") Long spuId, @Param("code") int code);
 }

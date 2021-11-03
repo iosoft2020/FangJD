@@ -26,10 +26,10 @@ spring:
     type: redis
   session:
     store-type: redis
-#  mvc: 
-#     hiddenmethod:
-#       filter:
-#         enabled: true
+  mvc: 
+     hiddenmethod:
+       filter:
+         enabled: true
 #  mvc:
 #    date-format: yyyy/MM/dd
 
