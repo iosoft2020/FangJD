@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<title>IOSOFT</title>
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" th:href="@{/webjars/AdminLTE/3.0.5/plugins/fontawesome-free/css/all.min.css}">
+<!-- IonIcons -->
+<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" th:href="@{/webjars/AdminLTE/3.0.5/dist/css/adminlte.min.css}">
+<!-- Google Font: Source Sans Pro -->
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+    rel="stylesheet">
+
+<style type="text/css">
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+</style>
+
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        <!-- tobbar -->
+        <div th:replace="commons/bar::topbar"></div>
+        <!-- /.tobbar -->
+
+        <!-- menubar -->
+        <div th:replace="commons/bar::menubar(activeUri='AttrGroup')"></div>
+        <!-- /.menubar -->
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>属性分组显示</h1>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <h2>
+                    <div class="dropdown dropright">
+                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                            id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">选择分类</button>
+                        <ul class="dropdown-menu multi-level" id="categoryMenu" role="menu"
+                            aria-labelledby="dropdownMenu">
+                            <li class='dropdown-submenu' th:each="category:${categorys}"><a
+                                id="dropdownItem" class="dropdown-item" tabindex="-1"
+                                th:text="${category.name}"></a>
+                                <ul class="dropdown-menu">
+                                    <!-- sub1 start-->
+                                    <li class="dropdown-submenu"
+                                        th:each="categorySub:${category.children}"><a
+                                        class="dropdown-item" tabindex="-1"
+                                        th:text="${categorySub.name}"></a>
+                                        <ul class="dropdown-menu">
+                                            <!-- sub2 start-->
+                                            <li class="dropdown-item"
+                                                th:each="categorySubSub:${categorySub.children}">
+                                                <a class="dropdown-item"
+                                                th:id="${'subsubitem'+category.catId+categorySub.catId+categorySubSub.catId}"
+                                                th:attr="catId1=${category.catId}, catName1=${category.name}, catId2=${categorySub.catId}, catName2=${categorySub.name}, catId3=${categorySubSub.catId}"
+                                                th:href="|javascript:selectCategory('${category.catId}${categorySub.catId}${categorySubSub.catId}');|"
+                                                th:text="${categorySubSub.name}"></a>
+                                            </li>
+                                            <!-- sub2 end-->
+                                        </ul></li>
+                                    <!-- sub1 end-->
+                                </ul></li>
+                        </ul>
+                    </div>
+                    <div id="categorySelectedConfirmHead"></div>
+                </h2>
+                <!-- Default box -->
+                <div class="card">
+                    <div class="card-body p-0">
+                        <table id="attrGroups_table" class="table table-striped projects">
+                            <thead>
+                                <tr>
+                                    <th style="width: 1%">#</th>
+                                    <th style="width: 10%">分组id</th>
+                                    <th style="width: 10%">组名</th>
+                                    <th style="width: 10%">排序</th>
+                                    <th style="width: 10%">描述</th>
+                                    <th style="width: 10%">组图标</th>
+                                    <th style="width: 10%">所属分类</th>
+                                    <th style="width: 20%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <div class="modal fade" id="attrGroupModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 900px;">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">添加属性分组</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- box col-12 -->
+                                        <div class="box box-primary">
+                                            <form>
+                                                <div class="box-body">
+                                                    <div class="form-group">
+                                                        <label>所属分类</label>
+                                                        <div id="catelog"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>分组名</label> <input type="text" class="form-control" name="attrGroupName">
+                                                        <!--  <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                                                        <p th:if="${errmsg} != null" th:text="${errmsg}" style="color: red;"></p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>排序</label> <input type="text" class="form-control" name="sort">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>描述</label> <input type="text"class="form-control" name="descript">
+                                                        <!--                         <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                                                        <p th:if="${errmsg} != null" th:text="${errmsg}" style="color: red;"></p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>组图标</label> <input type="text"
+                                                            class="form-control" name="icon">
+                                                        <!--                      <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                                                        <p th:if="${errmsg} != null"th:text="${errmsg}" style="color: red;"></p>
+                                                    </div>
+                                                </div>
+                                              <div class="box-footer">
+                                                    <button type="button" class="btn btn-primary" onclick="save();">保存</button>
+                                                </div>
+                                                <input type="hidden" name="catelogId">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </section>
+            <!-- /.content -->
+            <div class="clearfix" id="pages">
+                <ul class="pagination  m-0 float-right">
+                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- footbar -->
+        <div th:replace="commons/bar::footbar"></div>
+        <!-- /.footbar -->
+
+      <form id="attrForm" action="/product/attr/init" method="get" >
+          <input type="hidden" name="catelogId">
+          <input type="hidden" name="catelogName">
+          <input type="hidden" name="attrGroupId">
+          <input type="hidden" name="attrGroupName">
+      </form>
+    </div>
+    <!-- ./wrapper -->
+
+
+    <!-- REQUIRED SCRIPTS -->
+
+    <!-- jQuery -->
+    <script th:src="@{/webjars/AdminLTE/3.0.5/plugins/jquery/jquery.min.js}"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.js}"></script>
+    <!-- AdminLTE -->
+    <script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/adminlte.js}"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script th:src="@{/webjars/AdminLTE/3.0.5/plugins/chart.js/Chart.min.js}"></script>
+    <script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/demo.js}"></script>
+    <script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/pages/dashboard3.js}"></script>
+
+    <!-- Bootstrap Switch -->
+    <script th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+
+    <!-- page script -->
+    <script>
+
+        $(document).ready(function() {
+            $('.dropdown-submenu a.test').on("click", function(e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+
+        $('#pages').css('display', 'none');
+
+        //选择分类
+        function selectCategory(index) {
+            var catId = $("#" + "subsubitem" + index)
+                    .attr("catid3");
+            var catName = $("#" + "subsubitem" + index).attr("catName1")+ "==>>"+ $("#" + "subsubitem" + index).attr("catName2")+ "==>>"+ $("#" + "subsubitem" + index).html();
+
+            $("#categorySelectedConfirmHead").text(catName);
+            $("#categorySelectedConfirmHead").append('</br><button  class="btn btn-danger btn-sm cancelBtn" onclick="clearCategory();" > <i class="fas fa-chain-broken"></i>清除</button>');
+            $("#categorySelectedConfirmHead").append("<button class='btn btn-success btn-sm addBtn' data-toggle='modal' data-target='#attrGroupModal' data-whatever='@mdo'"+" data-catelog-id='"+catId+"' data-catelog-name='"+catName+"' > <i class='fas fa-trash'></i>添加属性分组</button>");
+            $("#categorySelectedConfirmHead").append("<span style='display:none;' id='catId'>"+ catId + "</span>");
+            $("#categorySelectedConfirmHead").append("<span style='display:none;' id='catName'>"+ catName + "</span>");
+            search();
+        }
+
+        $('#attrGroupModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            // get data-***
+            var catelogId = button.data('catelog-id');
+            var catelogName = button.data('catelog-name')
+            $("#catelog").text(catelogName);
+            $("#catelogId").val(catelogId);
+            $('input:hidden[name="catelogId"]').val(catelogId);
+        });
+
+        function search() {
+
+            // get attrGroup
+            $.ajax('/product/attrGroup/list/'+ $("#catId").text(),
+                    {
+                       type : 'GET',
+                                dataType : 'json'
+                            })
+                    // ok
+                    .done(
+                            function(data) {
+                                // clear
+                                $('#result').empty();
+                                var c = [];
+                                $.each(
+                                    data,
+                                    function(i, item) {
+                                        c.push("<tr>");
+                                        c.push("<td></td>");
+                                        c.push("<td>"+ item.attrGroupId+ "</td>");
+                                        c.push("<td>"+ item.attrGroupName+ "</td>");
+                                        c.push("<td>"+ item.sort+ "</td>");
+                                        c.push("<td>"+ item.descript+ "</td>");
+                                        c.push("<td>"+ item.icon+ "</td>");
+                                        c.push("<td>"+ item.catelogId+ "</td>");
+                                        c.push("<td class='project-actions text-left'>");
+                                        c.push("<button onclick='addAttr("+ item.attrGroupId +","+ item.attrGroupName+","+ item.catelogId+ ");' class='btn btn-info btn-sm' >");
+                                        c.push("<i class='fa fa-cog'></i>添加属性</button>");
+                                        c.push("<button onclick='deleteBrandCategoryRelations("+ item.brandId+ ","+ item.catelogId+ ");' class='btn btn-danger btn-sm' >");
+                                        c.push("<i class='fas fa-trash'></i>删除</button></td>");
+                                        c.push("</tr>");
+                                    });
+                                $('#attrGroups_table tbody').html(c.join(""));
+                                if (Object.keys(data).length > 0) {
+                                    $('#pages').css('display', '');
+                                }
+                            })
+                    // fail
+                    .fail(function() {
+                        window.alert('取得失败');
+                    });
+        }
+
+        function clearCategory() {
+            $("#categorySelectedConfirmHead").empty();
+            $('#attrGroups_table tbody > tr').empty();
+            $('#pages').css('display', 'none');
+        }
+
+        function save() {
+
+            // get attrGroup
+            $.ajax('/product/attrGroup/save', {
+                type : 'post',
+                data : $('form').serialize(),
+                dataType : 'json'
+            })
+            // ok
+            .done(function(data) {
+                window.alert('添加成功');
+                $('#attrGroupModal').modal('toggle');
+                search();
+            })
+            // fail
+            .fail(function() {
+                window.alert('取得失败');
+            });
+        }
+
+        function addAttr(attrGroupId, attrGroupName, catelogId) {
+            $('input:hidden[name="catelogId"]').val(catelogId);
+            $('input:hidden[name="catelogName"]').val($("#categorySelectedConfirmHead #catName").text());
+            $('input:hidden[name="attrGroupId"]').val(attrGroupId);
+            $('input:hidden[name="attrGroupName"]').val(attrGroupName);
+            $("#attrForm").submit();
+        }
+
+        $(function() {
+
+            $("input[data-bootstrap-switch]").each(function() {
+                if ($(this).attr('data-showStatus') == '1') {
+                    $(this).bootstrapSwitch('state', 'true');
+                } else {
+                    $(this).bootstrapSwitch('state', '');
+                }
+                $(this).bootstrapSwitch('toggleDisabled', true);
+            });
+
+        })
+        </script>
+
+</body>
+</html>

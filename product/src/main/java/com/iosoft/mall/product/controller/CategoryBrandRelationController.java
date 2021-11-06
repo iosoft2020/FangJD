@@ -41,8 +41,8 @@ public class CategoryBrandRelationController {
         return categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelation>().eq("brand_id", brandId));
     }
 
-    @GetMapping("/create")
-    public List<CategoryBrandRelation> create(CatalogVo catalogVo) {
+    @GetMapping("/save")
+    public List<CategoryBrandRelation> save(CatalogVo catalogVo) {
         CategoryBrandRelation categoryBrandRelation = new CategoryBrandRelation();
         categoryBrandRelation.setBrandId(Long.parseLong(catalogVo.getBrandId()));
         categoryBrandRelation.setCatelogId(Long.parseLong(catalogVo.getCatelogId()));

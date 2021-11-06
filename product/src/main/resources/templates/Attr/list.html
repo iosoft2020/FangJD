@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<title>IOSOFT</title>
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet"
+  th:href="@{/webjars/AdminLTE/3.0.5/plugins/fontawesome-free/css/all.min.css}">
+<!-- IonIcons -->
+<link rel="stylesheet"
+  href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet"
+  th:href="@{/webjars/AdminLTE/3.0.5/dist/css/adminlte.min.css}">
+<!-- Google Font: Source Sans Pro -->
+<link
+  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+  rel="stylesheet">
+
+<style type="text/css">
+.dropdown-submenu {
+	position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -6px;
+	margin-left: -1px;
+	-webkit-border-radius: 0 6px 6px 6px;
+	-moz-border-radius: 0 6px 6px;
+	border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+	display: block;
+}
+
+.dropdown-submenu>a:after {
+	display: block;
+	content: " ";
+	float: right;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #ccc;
+	margin-top: 5px;
+	margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+	border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+	float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+	left: -100%;
+	margin-left: 10px;
+	-webkit-border-radius: 6px 0 6px 6px;
+	-moz-border-radius: 6px 0 6px 6px;
+	border-radius: 6px 0 6px 6px;
+}
+</style>
+
+</head>
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    <!-- tobbar -->
+    <div th:replace="commons/bar::topbar"></div>
+    <!-- /.tobbar -->
+
+    <!-- menubar -->
+    <div th:replace="commons/bar::menubar(activeUri='AttrGroup')"></div>
+    <!-- /.menubar -->
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>属性显示</h1>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <h2>
+            <div id="category"  th:text="${attrVo.catelogName} !=null?${'分类名：' + attrVo.catelogName}:'分类名：'"></div>
+            <div id="attrGroup" th:text="${attrVo.attrGroupName} !=null?${'组名：' + attrVo.attrGroupName}:'组名：'"></div>
+            <div>
+                <button class='btn btn-success btn-sm addBtn' data-toggle='modal' data-target='#attrModal' data-whatever='@mdo' th:attr="data-catelog-id=${attrVo.catelogId}, data-attr-group-id=${attrVo.attrGroupId}"> <i class='fas fa-trash'></i>添加属性</button>
+                <button class='btn btn-info btn-sm addBtn' onclick="returnAttrGroup();"> <i class='fa fa-arrow-circle-left'></i>返回属性分组</button>
+            </div>
+        </h2>
+
+        <!-- attrModal start -->
+        <div class="modal fade" id="attrModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 900px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">添加属性分组</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- box col-12 -->
+                        <div class="box box-primary">
+                            <form id ="attrForm" action="/product/attr/save" method="post">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>所属分类</label>
+                                        <div id="catelog"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>分组名</label> <input type="text" class="form-control" name="attrGroupName">
+                                        <!--  <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                                        <p th:if="${errmsg} != null" th:text="${errmsg}" style="color: red;"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>排序</label> <input type="text" class="form-control" name="sort">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>描述</label> <input type="text"class="form-control" name="descript">
+                                        <!--                         <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                                        <p th:if="${errmsg} != null" th:text="${errmsg}" style="color: red;"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>组图标</label> <input type="text"
+                                            class="form-control" name="icon">
+                                        <!--                      <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                                        <p th:if="${errmsg} != null"th:text="${errmsg}" style="color: red;"></p>
+                                    </div>
+                                </div>
+                              <div class="box-footer">
+                                    <button type="button" class="btn btn-primary" onclick="save();">保存</button>
+                                </div>
+                                <input type="hidden" name="catelogId">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-body p-0">
+            <table id="attrGroups_table"
+              class="table table-striped projects">
+              <thead>
+                <tr>
+                  <th style="width: 1%">#</th>
+                  <th style="width: 10%">属性id</th>
+                  <th style="width: 10%">属性名</th>
+                  <th style="width: 10%">是否需要检索</th>
+                  <th style="width: 10%">属性图标</th>
+                  <th style="width: 10%">所属分类</th>
+                  <th style="width: 20%">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+
+            <div class="modal fade" id="attrGroupModal" tabindex="-1"
+              role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 900px;">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">添加属性分组</h5>
+                    <button type="button" class="close"
+                      data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- box col-12 -->
+                    <div class="box box-primary">
+                      <form>
+                        <div class="box-body">
+                          <div class="form-group">
+                            <label>所属分类</label>
+                            <div id="catelog"></div>
+                          </div>
+                          <div class="form-group">
+                            <label>分组名</label> <input type="text"
+                              class="form-control" name="attrGroupName">
+                            <!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                            <p th:if="${errmsg} != null"
+                              th:text="${errmsg}" style="color: red;"></p>
+                          </div>
+                          <div class="form-group">
+                            <label>排序</label> <input type="text"
+                              class="form-control" name="sort">
+                          </div>
+                          <div class="form-group">
+                            <label>描述</label> <input type="text"
+                              class="form-control" name="descript">
+                            <!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                            <p th:if="${errmsg} != null"
+                              th:text="${errmsg}" style="color: red;"></p>
+                          </div>
+                          <div class="form-group">
+                            <label>组图标</label> <input type="text"
+                              class="form-control" name="icon">
+                            <!--                      <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
+                            <p th:if="${errmsg} != null"
+                              th:text="${errmsg}" style="color: red;"></p>
+                          </div>
+
+                        </div>
+                        <div class="box-footer">
+                          <button type="button" class="btn btn-primary"
+                            onclick="save();">保存</button>
+                        </div>
+                        <input type="hidden" name="catelogId">
+                      </form>
+                    </div>
+                  </div>
+                  <div class="modal-footer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+      </section>
+      <!-- /.content -->
+      <div class="clearfix" id="pages">
+        <ul class="pagination  m-0 float-right">
+          <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+        </ul>
+      </div>
+
+      <form id="attrGroupForm" action="/product/attrGroup/init" method="get">
+      </form>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- footbar -->
+    <div th:replace="commons/bar::footbar"></div>
+    <!-- /.footbar -->
+
+  </div>
+  <!-- ./wrapper -->
+
+
+  <!-- REQUIRED SCRIPTS -->
+
+  <!-- jQuery -->
+  <script
+    th:src="@{/webjars/AdminLTE/3.0.5/plugins/jquery/jquery.min.js}"></script>
+  <!-- Bootstrap -->
+  <script
+    th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script
+    th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.min.js}"></script>
+  <script
+    th:src="@{/webjars/AdminLTE/3.0.5/plugins/bootstrap/js/bootstrap.js}"></script>
+  <!-- AdminLTE -->
+  <script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/adminlte.js}"></script>
+
+  <!-- OPTIONAL SCRIPTS -->
+  <script
+    th:src="@{/webjars/AdminLTE/3.0.5/plugins/chart.js/Chart.min.js}"></script>
+  <script th:src="@{/webjars/AdminLTE/3.0.5/dist/js/demo.js}"></script>
+  <script
+    th:src="@{/webjars/AdminLTE/3.0.5/dist/js/pages/dashboard3.js}"></script>
+
+
+  <!-- page script -->
+  <script>
+      $('#pages').css('display', 'none');
+
+      $('#attrModal').on('show.bs.modal', function(event) {
+          var button = $(event.relatedTarget);
+          // get data-***
+//           var catelogId = button.data('catelog-id');
+//           var attrGroupId = button.data('attr-group-id')
+//           $("#catelog").text(catelogName);
+//           $("#catelogId").val(catelogId);
+//           $('input:hidden[name="catelogId"]').val(catelogId);
+      });
+
+      function returnAttrGroup() {
+          $("#attrGroupForm").submit();
+      }
+  </script>
+
+</body>
+</html>

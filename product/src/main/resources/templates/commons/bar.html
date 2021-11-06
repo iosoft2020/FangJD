@@ -51,6 +51,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+<!--                 <a th:href="@{/product/category/list}" class="nav-link" th:class="${activeUri=='Category'?'nav-link active':'nav-link'}"> -->
+<!--                   <i class="far fa-circle nav-icon"></i> -->
+<!--                   <p>分类管理</p> -->
+<!--                 </a> -->
+                <a th:href="@{/product/attrGroup/init}" class="nav-link" th:class="${activeUri=='AttrGroup'?'nav-link active':'nav-link'}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>属性分组和属性管理</p>
+                </a>
                 <a th:href="@{/product/brand/list}" class="nav-link" th:class="${activeUri=='Brand'?'nav-link active':'nav-link'}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>品牌管理</p>

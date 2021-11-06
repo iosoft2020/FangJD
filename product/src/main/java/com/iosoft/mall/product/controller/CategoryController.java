@@ -1,11 +1,11 @@
 package com.iosoft.mall.product.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iosoft.mall.product.pojo.Category;
 import com.iosoft.mall.product.service.CategoryService;
@@ -18,7 +18,7 @@ import com.iosoft.mall.product.service.CategoryService;
  * @author iosoft
  * @since 2021-09-29
  */
-@RestController
+@Controller
 @RequestMapping("/product/category")
 public class CategoryController {
 
@@ -29,10 +29,9 @@ public class CategoryController {
      * 查询所有分类并将查到分类通过树状结构组装起来
      */
     @RequestMapping("/list/tree")
-    public List<Category> list(){
-        List<Category> categoryEntities = categoryService.listWithTree();
-
-        return categoryEntities;
+    @ResponseBody
+    public List<Category> list() {
+        return categoryService.listWithTree();
     }
-}
 
+}

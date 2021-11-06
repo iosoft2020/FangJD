@@ -374,7 +374,7 @@ function deleteBrandCategoryRelations(brandId, catelogId){
 	           c.push("<td>" + item.brandName + "</td>");
 	           c.push("<td>" + item.catelogName + "</td>");
 	           c.push("<td class='project-actions text-left'>");
-	          c.push("<button onclick='aaa("+item.brandId+","+item.catelogId+");' class='btn btn-danger btn-sm' >");
+	          c.push("<button onclick='deleteBrandCategoryRelations("+item.brandId+","+item.catelogId+");' class='btn btn-danger btn-sm' >");
 	          c.push("<i class='fas fa-trash'></i>Delete</button></td>");
 	          c.push("</tr>");
 	        });
@@ -405,7 +405,7 @@ function selectCategory(index){
 
 function confirmCategory(){
 
-	$.ajax('/product/categoryBrandRelation/create',
+	$.ajax('/product/categoryBrandRelation/save',
 	         {
 	           type: 'GET',
 	           data: { brandId: $("#brandId").text(), brandName: $("#brandName").text(), catelogId: $("#catId").text(), catelogName: $("#catName").text() },
@@ -434,12 +434,10 @@ function confirmCategory(){
 	         window.alert('取得失败');
 	       });
 	 $("#categorySelectedConfirm").empty();
-    return false;
 }
 
 function clearCategory(){
 	 $("#categorySelectedConfirm").empty();
-    return false;
 }
 
 $(function () {
