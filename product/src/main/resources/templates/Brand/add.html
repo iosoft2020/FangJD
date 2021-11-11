@@ -35,7 +35,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 th:text="${brandForm}==null?'添加品牌':'修改品牌'">添加品牌</h1>
+            <h1 th:text="${#strings.isEmpty(brandForm.brandId)}?'添加品牌':'修改品牌'">添加品牌</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -47,8 +47,8 @@
 	    <!-- box col-12 -->
 	    <div class="box box-primary">
 	        <form th:action="@{/product/brand/}" method="post" >
-	        <input type="hidden" name="_method" value="put" th:if="${brandForm}!=null">
-	        <input type="hidden" name="brandId" th:if="${brandForm}!=null" th:value="${brandForm.brandId}">
+	        <input type="hidden" name="_method" value="put" th:if="${not #strings.isEmpty(brandForm.brandId)}">
+	        <input type="hidden" name="brandId" th:if="${not #strings.isEmpty(brandForm.brandId)}" th:value="${brandForm.brandId}">
 	        <div class="box-body">
 	                <div class="form-group">
 	                    <label>品牌名</label>
@@ -68,13 +68,13 @@
 	                <div class="form-group">
 	                    <label>显示状态</label>
 						<div>
-                            <input type="checkbox" name="showStatus" th:checked="${brandForm}!=null?${brandForm.showStatus == '1'}">
+                            <input type="checkbox" name="showStatus" th:checked="${brandForm}!=null?${brandForm.showStatus == '1' || brandForm.showStatus =='on'}">
 						</div>
                     </div>
 
 	        </div>
 	        <div class="box-footer">
-	            <button type="submit" class="btn btn-primary" th:text="${brandForm}==null?'添加':'修改'">Submit</button>
+	            <button type="submit" class="btn btn-primary" th:text="${#strings.isEmpty(brandForm.brandId)}?'添加':'修改'">Submit</button>
 	        </div>
 	        </form>
 	    </div>

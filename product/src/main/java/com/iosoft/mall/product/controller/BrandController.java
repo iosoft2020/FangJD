@@ -95,6 +95,7 @@ public class BrandController {
                 String field = fieldError.getField();
                 errors.put(field, message);
             });
+            redirectAttributes.addFlashAttribute("brandForm", brandForm);
             redirectAttributes.addFlashAttribute("errors", errors);
             return "redirect:http://iosoftmall.com/product/brand";
         }
