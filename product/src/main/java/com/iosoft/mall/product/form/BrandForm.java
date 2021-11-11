@@ -27,7 +27,7 @@ public class BrandForm implements Serializable {
      * 品牌id
      */
     @NotEmpty(message = "品牌id不能为空", groups = UpdateGroup.class)
-    private Long brandId;
+    private String brandId;
 
     /**
      * 品牌名
@@ -38,11 +38,13 @@ public class BrandForm implements Serializable {
     /**
      * 品牌logo地址
      */
+    @NotEmpty(message = "品牌logo地址不能为空", groups = { AddGroup.class, UpdateGroup.class })
     private String logo;
 
     /**
      * 介绍
      */
+    @NotEmpty(message = "介绍不能为空", groups = { AddGroup.class, UpdateGroup.class })
     private String descript;
 
     /**

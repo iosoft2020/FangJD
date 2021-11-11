@@ -35,7 +35,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 th:text="${brand}==null?'添加品牌':'修改品牌'">添加品牌</h1>
+            <h1 th:text="${brandForm}==null?'添加品牌':'修改品牌'">添加品牌</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -46,36 +46,35 @@
 
 	    <!-- box col-12 -->
 	    <div class="box box-primary">
-	        <form th:action="@{/product/brand/}" method="post">
-	        <input type="hidden" name="_method" value="put" th:if="${brand}!=null">
-	        <input type="hidden" name="id" th:if="${brand}!=null" th:value="${brand.id}">
+	        <form th:action="@{/product/brand/}" method="post" >
+	        <input type="hidden" name="_method" value="put" th:if="${brandForm}!=null">
+	        <input type="hidden" name="brandId" th:if="${brandForm}!=null" th:value="${brandForm.brandId}">
 	        <div class="box-body">
 	                <div class="form-group">
 	                    <label>品牌名</label>
-	                    <input type="text" class="form-control" name="name" th:value="${brand}!=null?${brand.name}" >
-<!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
-	                     <p th:if="${errmsg} != null" th:text="${errmsg}" style="color:red;"></p>
+	                    <input type="text" class="form-control" name="name" th:value="${brandForm}!=null?${brandForm.name}" >
+	                     <p th:if="${errors} != null" th:text="${errors != null?(#maps.containsKey(errors, 'name')?errors.name:''):''}" style="color:red;"></p>
 	                </div>
 	                <div class="form-group">
 	                    <label>品牌logo地址</label>
-	                    <input type="text" class="form-control" name="logo" th:value="${brand}!=null?${brand.logo}" >
+	                    <input type="text" class="form-control" name="logo" th:value="${brandForm}!=null?${brandForm.logo}" >
+                         <p th:if="${errors} != null" th:text="${errors != null?(#maps.containsKey(errors, 'logo')?errors.logo:''):''}" style="color:red;"></p>
 	                </div>
 	                <div class="form-group">
 	                    <label>介绍</label>
-	                    <input type="text" class="form-control" name="descript" th:value="${brand}!=null?${brand.descript}" >
-<!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
-	                     <p th:if="${errmsg} != null" th:text="${errmsg}" style="color:red;"></p>
+	                    <input type="text" class="form-control" name="descript" th:value="${brandForm}!=null?${brandForm.descript}" >
+                         <p th:if="${errors} != null" th:text="${errors != null?(#maps.containsKey(errors, 'descript')?errors.descript:''):''}" style="color:red;"></p>
 	                </div>
 	                <div class="form-group">
 	                    <label>显示状态</label>
-						<div class="bootstrap-switch-container" style="width: 128px; margin-left: 0px;">
-						<input  type="checkbox" name="showStatus" checked="" data-bootstrap-switch="" data-off-color="danger" data-on-color="success">
+						<div>
+                            <input type="checkbox" name="showStatus" th:checked="${brandForm}!=null?${brandForm.showStatus == '1'}">
 						</div>
                     </div>
 
 	        </div>
 	        <div class="box-footer">
-	            <button type="submit" class="btn btn-primary" th:text="${brand}==null?'Add':'Edit'">Submit</button>
+	            <button type="submit" class="btn btn-primary" th:text="${brandForm}==null?'添加':'修改'">Submit</button>
 	        </div>
 	        </form>
 	    </div>
@@ -112,15 +111,9 @@
 //         return false;
 //     });
 
-
-
-
-
 $(function () {
 
-    $("input[data-bootstrap-switch]").each(function(){
-          $(this).bootstrapSwitch('state', 'checked');
-    })
+	$("[name='showStatus']").bootstrapSwitch();
 
 })
 

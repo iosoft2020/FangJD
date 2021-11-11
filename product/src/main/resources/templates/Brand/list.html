@@ -95,8 +95,8 @@
     <!-- Main content -->
     <section class="content">
       <h2>
-        <a class="btn btn-success btn-sm" href="#" th:href="@{/product/brand/toAdd}">
-            <i class="fas fa-trash"></i>Add</a>
+        <a class="btn btn-success btn-sm" href="#" th:href="@{/product/brand}">
+            <i class="fas fa-trash"></i>新增</a>
       </h2>
       <!-- Default box -->
       <div class="card">
@@ -135,11 +135,9 @@
                       <td th:text="${brand.logo}"></td>
                       <td th:text="${brand.descript}"></td>
                       <td>
-
-						<div class="bootstrap-switch-container" style="width: 128px; margin-left: 0px;">
-						<input  type="checkbox" name="my-checkbox" th:attr="data-showStatus=${brand.showStatus}" checked="" data-bootstrap-switch="" data-off-color="danger" data-on-color="success">
+						<div>
+                            <input type="checkbox" name="showStatus" th:checked="${brand.showStatus == 1}" disabled>
 						</div>
-
                       </td>
                       <td class="project-actions text-left">
                           <button type="button" id="makeRelation" class="btn btn-primary" data-toggle="modal" data-target="#categoryRelationsModal" data-whatever="@mdo" th:attr="data-brand-id=${brand.brandId}, data-brand-name=${brand.name}" >
@@ -159,7 +157,7 @@
 										  	<div class="row">
 										        <div class="dropdown dropright">
 										            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										              新增分类
+										                                  选择分类
 										            </button>
 										            <ul class="dropdown-menu multi-level" id="categoryMenu" role="menu" aria-labelledby="dropdownMenu"></ul>
 										        </div>
@@ -198,18 +196,30 @@
 
                           <a class="btn btn-info btn-sm" th:href="@{/product/brand/}+${brand.brandId}">
                               <i class="fas fa-pencil-alt">
-                              </i>
-                              Edit
-                          </a>
-                          <button th:attr="del_uri=@{/product/brand/}+${brand.brandId}" class="btn btn-danger btn-sm deleteBtn" >
-	                          <i class="fas fa-trash"></i>Delete</button>
+                              </i>编辑</a>
+                          <button th:attr="data-del-uri=@{/product/brand/}+${brand.brandId},data-brand-name=${brand.name}" class="btn btn-danger btn-sm deleteBtn" data-toggle="modal" data-target="#confirm-delete">
+	                          <i class="fas fa-trash"></i>删除</button>
+                              <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            <a class="btn btn-danger btn-ok" >删除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="brandForm" method="post" >
+                                  <input type="hidden" name="_method" value="delete"/>
+                                </form>
+                            </div>
                       </td>
                   </tr>
               </tbody>
           </table>
-          <form id="brandForm" method="post" >
-	          <input type="hidden" name="_method" value="delete"/>
-	      </form>
         </div>
         <!-- /.card-body -->
       </div>
@@ -263,6 +273,9 @@
 <!-- page script -->
 <script>
 $(document).ready(function(){
+
+	$("[name='showStatus']").bootstrapSwitch();
+
 	  $('.dropdown-submenu a.test').on("click", function(e){
 	    $(this).next('ul').toggle();
 	    e.stopPropagation();
@@ -270,10 +283,18 @@ $(document).ready(function(){
 	  });
 	});
 
-     $(".deleteBtn").click(function(){
-         $("#brandForm").attr("action",$(this).attr("del_uri")).submit();
+     $(".btn-ok").click(function(){
+         $("#brandForm").attr("action",$(this).attr("href")).submit();
          return false;
      });
+
+        $('#confirm-delete').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var brandName = button.data('brand-name');
+            var delUri = button.data('del-uri');
+            $(".modal-body").text("确定要删除，品牌名是["+brandName+"]的数据吗？");
+            $(this).find('.btn-ok').attr('href', delUri);
+        });
 
      $('#categoryRelationsModal').on('show.bs.modal', function (event) {
     	    var button = $(event.relatedTarget);
@@ -440,18 +461,6 @@ function clearCategory(){
 	 $("#categorySelectedConfirm").empty();
 }
 
-$(function () {
-
-    $("input[data-bootstrap-switch]").each(function(){
-      if ($(this).attr('data-showStatus')=='1'){
-          $(this).bootstrapSwitch('state', 'true');
-      } else {
-          $(this).bootstrapSwitch('state', '');
-      }
-      $(this).bootstrapSwitch('toggleDisabled', true);
-    });
-
-})
 
 
 

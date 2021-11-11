@@ -37,4 +37,8 @@ public class AttrForm implements Serializable {
      */
     private String catelogId;
 
+    /**
+     * 属性分组id
+     */
+    private Long attrGroupId;
 }

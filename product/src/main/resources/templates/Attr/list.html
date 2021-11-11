@@ -115,7 +115,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="width: 900px;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">添加属性分组</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">添加属性</h5>
                         <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -127,33 +127,28 @@
                             <form id ="attrForm" action="/product/attr/save" method="post">
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <label>所属分类</label>
+                                        <label>所属分组</label>
                                         <div id="catelog"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label>分组名</label> <input type="text" class="form-control" name="attrGroupName">
+                                        <label>属性名</label> <input type="text" class="form-control" name="attrName">
                                         <!--  <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
                                         <p th:if="${errmsg} != null" th:text="${errmsg}" style="color: red;"></p>
                                     </div>
                                     <div class="form-group">
-                                        <label>排序</label> <input type="text" class="form-control" name="sort">
+                                        <label>是否需要检索</label> <input type="text" class="form-control" name="searchType">
                                     </div>
                                     <div class="form-group">
-                                        <label>描述</label> <input type="text"class="form-control" name="descript">
+                                        <label>属性图标</label> <input type="text"class="form-control" name="icon">
                                         <!--                         <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
                                         <p th:if="${errmsg} != null" th:text="${errmsg}" style="color: red;"></p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>组图标</label> <input type="text"
-                                            class="form-control" name="icon">
-                                        <!--                      <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
-                                        <p th:if="${errmsg} != null"th:text="${errmsg}" style="color: red;"></p>
                                     </div>
                                 </div>
                               <div class="box-footer">
                                     <button type="button" class="btn btn-primary" onclick="save();">保存</button>
                                 </div>
-                                <input type="hidden" name="catelogId">
+                                <input type="hidden" name="catelogId"/>
+                                <input type="hidden" name="attrGroupId"/>
                             </form>
                         </div>
                     </div>
@@ -178,69 +173,24 @@
                 </tr>
               </thead>
               <tbody>
+                  <tr th:each="attr:${attrs}">
+                      <td ></td>
+                      <td th:text="${attr.attrId}"></td>
+                      <td th:text="${attr.attrName}"></td>
+                      <td th:text="${attr.searchType}"></td>
+                      <td th:text="${attr.icon}"></td>
+                      <td th:text="${attr.catelogId}"></td>
+                      <td class="project-actions text-left">
+                          <a th:attr="del_uri=@{/product/attr/delete/}+${attr.attrId}" class="btn btn-danger btn-sm deleteBtn">
+                               <i class="fas fa-trash"></i>Delete
+                          </a>
+                      </td>
+                  </tr>
               </tbody>
             </table>
-
-            <div class="modal fade" id="attrGroupModal" tabindex="-1"
-              role="dialog" aria-labelledby="exampleModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width: 900px;">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">添加属性分组</h5>
-                    <button type="button" class="close"
-                      data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <!-- box col-12 -->
-                    <div class="box box-primary">
-                      <form>
-                        <div class="box-body">
-                          <div class="form-group">
-                            <label>所属分类</label>
-                            <div id="catelog"></div>
-                          </div>
-                          <div class="form-group">
-                            <label>分组名</label> <input type="text"
-                              class="form-control" name="attrGroupName">
-                            <!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
-                            <p th:if="${errmsg} != null"
-                              th:text="${errmsg}" style="color: red;"></p>
-                          </div>
-                          <div class="form-group">
-                            <label>排序</label> <input type="text"
-                              class="form-control" name="sort">
-                          </div>
-                          <div class="form-group">
-                            <label>描述</label> <input type="text"
-                              class="form-control" name="descript">
-                            <!-- 	                    <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
-                            <p th:if="${errmsg} != null"
-                              th:text="${errmsg}" style="color: red;"></p>
-                          </div>
-                          <div class="form-group">
-                            <label>组图标</label> <input type="text"
-                              class="form-control" name="icon">
-                            <!--                      <span th:if="${#fields.hasErrors('name')}" th:errors="${brand.name}" style="color: red"></span> -->
-                            <p th:if="${errmsg} != null"
-                              th:text="${errmsg}" style="color: red;"></p>
-                          </div>
-
-                        </div>
-                        <div class="box-footer">
-                          <button type="button" class="btn btn-primary"
-                            onclick="save();">保存</button>
-                        </div>
-                        <input type="hidden" name="catelogId">
-                      </form>
-                    </div>
-                  </div>
-                  <div class="modal-footer"></div>
-                </div>
-              </div>
-            </div>
+          <form id="attrDeleteForm" method="post" >
+              <input type="hidden" name="_method" value="delete"/>
+          </form>
           </div>
           <!-- /.card-body -->
         </div>
@@ -301,15 +251,38 @@
       $('#attrModal').on('show.bs.modal', function(event) {
           var button = $(event.relatedTarget);
           // get data-***
-//           var catelogId = button.data('catelog-id');
-//           var attrGroupId = button.data('attr-group-id')
-//           $("#catelog").text(catelogName);
-//           $("#catelogId").val(catelogId);
-//           $('input:hidden[name="catelogId"]').val(catelogId);
+          var catelogId = button.data('catelog-id');
+          var attrGroupId = button.data('attr-group-id')
+          $('input:hidden[name="catelogId"]').val(catelogId);
+          $('input:hidden[name="attrGroupId"]').val(attrGroupId);
+      });
+
+      $(".deleteBtn").click(function(){
+          $("#attrDeleteForm").attr("action",$(this).attr("del_uri")).submit();
+          return false;
       });
 
       function returnAttrGroup() {
           $("#attrGroupForm").submit();
+      }
+
+      function save() {
+
+          // get attrGroup
+          $.ajax('/product/attr/save', {
+              type : 'post',
+              data : $('form').serialize(),
+              dataType : 'json'
+          })
+          // ok
+          .done(function(data) {
+              window.alert('添加成功');
+              $('#attrModal').modal('toggle');
+          })
+          // fail
+          .fail(function() {
+              window.alert('取得失败');
+          });
       }
   </script>
 

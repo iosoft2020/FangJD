@@ -24,6 +24,7 @@ public class MallExceptionAdvice {
             String field = item.getField();
             map.put(field, message);
         });
+        log.error("异常信息{}",excetion);
         log.error("数据校验出现问题:{},异常类型{}",excetion.getMessage(),excetion.getClass());
 
         return "forward:/error";
@@ -32,6 +33,7 @@ public class MallExceptionAdvice {
     @ExceptionHandler(Throwable.class)
     public String systemException(Exception e, HttpServletRequest request) {
 
+        log.error("异常信息{}",e );
         Map<String,Object> myErrorAttributes = new HashMap<>();
         myErrorAttributes.put("code", "900001");
         myErrorAttributes.put("message", "data not found");
