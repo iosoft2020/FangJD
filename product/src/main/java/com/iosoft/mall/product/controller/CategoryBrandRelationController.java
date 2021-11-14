@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.iosoft.mall.common.utils.R;
 import com.iosoft.mall.product.pojo.CategoryBrandRelation;
 import com.iosoft.mall.product.service.CategoryBrandRelationService;
 import com.iosoft.mall.product.vo.CatalogVo;
@@ -42,14 +43,21 @@ public class CategoryBrandRelationController {
     }
 
     @GetMapping("/save")
-    public List<CategoryBrandRelation> save(CatalogVo catalogVo) {
+    public R save(CatalogVo catalogVo) {
+        if (null != categoryBrandRelationService
+                .getOne(new QueryWrapper<CategoryBrandRelation>().eq("brand_id", Long.parseLong(catalogVo.getBrandId()))
+                        .and(queryWrapper -> queryWrapper.eq("catelog_id",
+                                Long.parseLong(catalogVo.getCatelogId()))))) {
+            return R.error("分类已存在");
+        }
         CategoryBrandRelation categoryBrandRelation = new CategoryBrandRelation();
         categoryBrandRelation.setBrandId(Long.parseLong(catalogVo.getBrandId()));
         categoryBrandRelation.setCatelogId(Long.parseLong(catalogVo.getCatelogId()));
         categoryBrandRelation.setBrandName(catalogVo.getBrandName());
         categoryBrandRelation.setCatelogName(catalogVo.getCatelogName());
         categoryBrandRelationService.save(categoryBrandRelation);
-        return categoryBrandRelationService
-                .list(new QueryWrapper<CategoryBrandRelation>().eq("brand_id", Long.parseLong(catalogVo.getBrandId())));
+        return R.ok().setData(categoryBrandRelationService
+                .list(new QueryWrapper<CategoryBrandRelation>().eq("brand_id",
+                        Long.parseLong(catalogVo.getBrandId()))));
     }
 }

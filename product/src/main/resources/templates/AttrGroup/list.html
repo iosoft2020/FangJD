@@ -320,12 +320,12 @@
                                         c.push("<td>"+ item.icon+ "</td>");
                                         c.push("<td>"+ item.catelogId+ "</td>");
                                         c.push("<td class='project-actions text-left'>");
-                                        c.push("<button onclick='deleteBrandCategoryRelations("+ item.brandId+ ","+ item.catelogId+ ");' class='btn btn-primary btn-sm' >");
-                                        c.push("<i class='fas fa-pencil'></i>修改</button>");
-                                        c.push("<button onclick='deleteBrandCategoryRelations("+ item.brandId+ ","+ item.catelogId+ ");' class='btn btn-danger btn-sm' >");
-                                        c.push("<i class='fas fa-trash'></i>删除</button>");
                                         c.push("<button onclick='addAttr("+ item.attrGroupId +",\\'"+ item.attrGroupName+"',"+ item.catelogId+ ");' class='btn btn-info btn-sm' >");
-                                        c.push("<i class='fa fa-cog'></i>添加属性</button></td>");
+                                        c.push("<i class='fa fa-cog'></i>添加属性</button>");
+                                        c.push("<a href='/product/brand/}+${brand.brandId' class='btn btn-primary btn-sm' >");
+                                        c.push("<i class='fas fa-pencil'></i>修改</a>");
+                                        c.push("<button onclick='deleteBrandCategoryRelations("+ item.brandId+ ","+ item.catelogId+ ");' class='btn btn-danger btn-sm' >");
+                                        c.push("<i class='fas fa-trash'></i>删除</button></td>");
                                         c.push("</tr>");
                                     });
                                 $('#attrGroups_table tbody').html(c.join(""));

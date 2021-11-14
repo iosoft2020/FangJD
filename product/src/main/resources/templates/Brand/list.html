@@ -135,80 +135,80 @@
                       <td th:text="${brand.logo}"></td>
                       <td th:text="${brand.descript}"></td>
                       <td>
-						<div>
+                        <div>
                             <input type="checkbox" name="showStatus" th:checked="${brand.showStatus == 1}" disabled>
-						</div>
+                        </div>
                       </td>
                       <td class="project-actions text-left">
                           <button type="button" id="makeRelation" class="btn btn-primary" data-toggle="modal" data-target="#categoryRelationsModal" data-whatever="@mdo" th:attr="data-brand-id=${brand.brandId}, data-brand-name=${brand.name}" >
-	                          <i class="fa fa-cogs"></i>关联分类</button>
+                              <i class="fa fa-cogs"></i>关联分类</button>
 
-								<div class="modal fade" id="categoryRelationsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								  <div class="modal-dialog" role="document">
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <h5 class="modal-title" id="exampleModalLabel">关联分类</h5>
-								        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								          <span aria-hidden="true">&times;</span>
-								        </button>
-								      </div>
-								      <div class="modal-body">
-										<div class="container">
-										  	<div class="row">
-										        <div class="dropdown dropright">
-										            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										                                  选择分类
-										            </button>
-										            <ul class="dropdown-menu multi-level" id="categoryMenu" role="menu" aria-labelledby="dropdownMenu"></ul>
-										        </div>
-										    </div>
-										</div>
+                                <div class="modal fade" id="categoryRelationsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">关联分类</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="container">
+                                              <div class="row">
+                                                <div class="dropdown dropright">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                          选择分类
+                                                    </button>
+                                                    <ul class="dropdown-menu multi-level" id="categoryMenu" role="menu" aria-labelledby="dropdownMenu"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div id="categorySelectedConfirm"></div>
                                         <div id="brandInfo"></div>
 
-								          <table id="brandCategoryRelations_table" class="table table-striped projects">
-								              <thead>
-								                  <tr>
-								                      <th style="width: 1%">
-								                          #
-								                      </th>
-								                      <th style="width: 30%">
-								                          品牌名
-								                      </th>
-								                      <th style="width: 30%">
-								                                                                 分类名
-								                      </th>
-								                      <th style="width: 40%">
-								                          操作
-								                      </th>
-								                  </tr>
-								              </thead>
-								              <tbody>
-								              </tbody>
-								          </table>
-								      </div>
-								      <div class="modal-footer">
-								      </div>
-								    </div>
-								  </div>
-								</div>
+                                          <table id="brandCategoryRelations_table" class="table table-striped projects">
+                                              <thead>
+                                                  <tr>
+                                                      <th style="width: 1%">
+                                                          #
+                                                      </th>
+                                                      <th style="width: 30%">
+                                                          品牌名
+                                                      </th>
+                                                      <th style="width: 30%">
+                                                                                                 分类名
+                                                      </th>
+                                                      <th style="width: 40%">
+                                                          操作
+                                                      </th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                      <div class="modal-footer">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
 
                           <a class="btn btn-info btn-sm" th:href="@{/product/brand/}+${brand.brandId}">
                               <i class="fas fa-pencil-alt">
-                              </i>编辑</a>
+                              </i>修改</a>
                           <button th:attr="data-del-uri=@{/product/brand/}+${brand.brandId},data-brand-name=${brand.name}" class="btn btn-danger btn-sm deleteBtn" data-toggle="modal" data-target="#confirm-delete">
-	                          <i class="fas fa-trash"></i>删除</button>
+                              <i class="fas fa-trash"></i>删除</button>
                               <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                         </div>
-                                        <div class="modal-body">
+                                        <div id="deleteConfirmMessage" class="modal-body">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                            <a class="btn btn-danger btn-ok" >删除</a>
+                                            <a class="btn btn-danger" id="brandDelete">删除</a>
                                         </div>
                                     </div>
                                 </div>
@@ -224,8 +224,23 @@
         <!-- /.card-body -->
       </div>
       <!-- /.card -->
-
-    </section>
+      <!-- deleteCategoryRelationsConfirm -->
+    <div class="modal fade" id="deleteCategoryRelationsConfirm" tabindex="-1"
+        role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"></div>
+                <div id="deleteCategoryRelationsConfirmMessage" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <a class="btn btn-danger" onclick="javascript:deleteBrandCategoryRelations();">删除</a>
+                </div>
+            </div>
+            <div id="deleteBrandCategoryRelationCondition"></div>
+        </div>
+      <!-- /deleteCategoryRelationsConfirm -->
+            </section>
     <!-- /.content -->
 <!--               <div class="clearfix"> -->
 <!--                 <ul class="pagination  m-0 float-right"> -->
@@ -273,196 +288,206 @@
 <!-- page script -->
 <script>
 $(document).ready(function(){
-
-	$("[name='showStatus']").bootstrapSwitch();
-
-	  $('.dropdown-submenu a.test').on("click", function(e){
-	    $(this).next('ul').toggle();
-	    e.stopPropagation();
-	    e.preventDefault();
-	  });
-	});
-
-     $(".btn-ok").click(function(){
-         $("#brandForm").attr("action",$(this).attr("href")).submit();
-         return false;
-     });
-
-        $('#confirm-delete').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var brandName = button.data('brand-name');
-            var delUri = button.data('del-uri');
-            $(".modal-body").text("确定要删除，品牌名是["+brandName+"]的数据吗？");
-            $(this).find('.btn-ok').attr('href', delUri);
+    $("[name='showStatus']").bootstrapSwitch();
+    $('.dropdown-submenu a.test').on("click", function(e){
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
         });
+    });
 
-     $('#categoryRelationsModal').on('show.bs.modal', function (event) {
-    	    var button = $(event.relatedTarget);
-    	    // get data-***
-    	    var brandId = button.data('brand-id')
-    	    var brandName = button.data('brand-name')
+    $('#categoryRelationsModal').on('show.bs.modal', function (event) {
+
+        var button = $(event.relatedTarget);
+        // get data-***
+        var brandId = button.data('brand-id')
+        var brandName = button.data('brand-name')
+        $("#brandInfo").empty();
         $("#brandInfo").append("<span style='display:none;' id='brandId'>"+brandId+"</span>");
         $("#brandInfo").append("<span style='display:none;' id='brandName'>"+brandName+"</span>");
 
-    		   // get categoryBrandRelation
- 	       $.ajax('/product/categoryBrandRelation/'+brandId,
- 	         {
- 	           type: 'GET',
- 	           dataType: 'json'
- 	         }
- 	       )
- 	       // ok
- 	       .done(function(data) {
- 	         // clear
- 	         $('#result').empty();
- 	         var c = [];
- 	        $.each(data, function(i, item) {
- 	           c.push("<tr>");
- 	          c.push("<td>" + item.brandId + "</td>");
- 	           c.push("<td>" + item.brandName + "</td>");
- 	           c.push("<td>" + item.catelogName + "</td>");
- 	           c.push("<td class='project-actions text-left'>");
- 	          c.push("<button onclick='deleteBrandCategoryRelations("+item.brandId+","+item.catelogId+");' class='btn btn-danger btn-sm' >");
- 	          c.push("<i class='fas fa-trash'></i>Delete</button></td>");
- 	          c.push("</tr>");
- 	        });
- 	         $('#brandCategoryRelations_table tbody').html(c.join(""));
- 	       })
- 	       // fail
- 	      .fail(function() {
- 	         window.alert('取得失败');
- 	       });
+        // get categoryBrandRelation
+        $.ajax('/product/categoryBrandRelation/'+brandId,
+        {
+            type: 'GET',
+            dataType: 'json'
+        })
+        // ok
+        .done(function(data) {
+            // clear
+            $('#result').empty();
+            var c = [];
+            $.each(data, function(i, item) {
+                c.push("<tr>");
+                c.push("<td>" + item.brandId + "</td>");
+                c.push("<td>" + item.brandName + "</td>");
+                c.push("<td>" + item.catelogName + "</td>");
+                c.push("<td class='project-actions text-left'>");
+                c.push("<button class='btn btn-danger btn-sm' data-toggle='modal' data-target='#deleteCategoryRelationsConfirm'  data-brand-id="+item.brandId+" data-brand-name=" + item.brandName + " data-catelog-id="+item.catelogId + " data-catelog-name="+item.catelogName +" >");
+                c.push("<i class='fas fa-trash'></i>Delete</button>");
+                c.push("</td></tr>");
+            });
+            $('#brandCategoryRelations_table tbody').html(c.join(""));
 
- 		   // get categoryBrandRelation
-  	       $.ajax('/product/category/list/tree',
-  	         {
-  	           type: 'GET',
-  	           dataType: 'json'
-  	         }
-  	       )
-  	       // ok
-  	       .done(function(data) {
-  	         // clear
-  	         $('#result').empty();
+        })
+        // fail
+        .fail(function() {
+            window.alert('品牌分类取得失败');
+        });
 
-  	         var c = [];
-  	        $.each(data, function(index, item) {
-  	        	c.push("<li class='dropdown-submenu'>");
-  	        	c.push("<a  id='dropdownItem' class='dropdown-item' tabindex='-1' href='#' >"+item.name+"</a>");
-  	        	c.push("<ul class='dropdown-menu'>");
-  	        	$.each(item.children, function(subindex, subitem){
-  	        	  c.push("<li class='dropdown-submenu'>");
-  	        	  c.push("<a  class='dropdown-item' tabindex='-1' href='#' >"+subitem.name+"</a>");
-  	        	  c.push("<ul class='dropdown-menu'>");
-    	        	$.each(subitem.children, function(subsubindex, subsubitem){
-    	        		c.push("<li class='dropdown-item'><a class='dropdown-item' id='subsubitem"+item.catId+subitem.catId+subsubitem.catId+"'");
-    	        		c.push("catId1="+item.catId);
-    	        		c.push(" catName1="+item.name);
-    	        		c.push(" catId2="+subitem.catId);
-    	        		c.push(" catName2="+subitem.name);
-    	        		c.push(" catId3="+subsubitem.catId);
-    	        		c.push(" href='javascript:selectCategory("+item.catId+subitem.catId+subsubitem.catId+");'>"+subsubitem.name+"</a></li>");
-      	  	        });
-  	        	  c.push("</ul>");
-  	        	  c.push("</li>");
-  	  	        });
-  	        	c.push("</ul>");
-  	        	c.push("</li>");
-  	        });
-	         $('#categoryMenu').html(c.join(""));
-  	       })
-  	       // fail
-  	      .fail(function() {
-  	         window.alert('取得失败');
-  	       });
-     });
+        // get categoryBrandRelation
+        $.ajax('/product/category/list/tree',
+        {
+            type: 'GET',
+            dataType: 'json'
+        })
+        // ok
+        .done(function(data) {
+            // clear
+            $('#result').empty();
+            var c = [];
+            $.each(data, function(index, item) {
+                c.push("<li class='dropdown-submenu'>");
+                c.push("<a  id='dropdownItem' class='dropdown-item' tabindex='-1' href='#' >"+item.name+"</a>");
+                c.push("<ul class='dropdown-menu'>");
+                $.each(item.children, function(subindex, subitem){
+                    c.push("<li class='dropdown-submenu'>");
+                    c.push("<a  class='dropdown-item' tabindex='-1' href='#' >"+subitem.name+"</a>");
+                    c.push("<ul class='dropdown-menu'>");
+                    $.each(subitem.children, function(subsubindex, subsubitem){
+                        c.push("<li class='dropdown-item'><a class='dropdown-item' id='subsubitem"+item.catId+subitem.catId+subsubitem.catId+"'");
+                        c.push("catId1="+item.catId);
+                        c.push(" catName1="+item.name);
+                        c.push(" catId2="+subitem.catId);
+                        c.push(" catName2="+subitem.name);
+                        c.push(" catId3="+subsubitem.catId);
+                        c.push(" href='javascript:selectCategory("+item.catId+subitem.catId+subsubitem.catId+");'>"+subsubitem.name+"</a></li>");
+                    });
+                    c.push("</ul>");
+                    c.push("</li>");
+                });
+                c.push("</ul>");
+                c.push("</li>");
+            });
+            $('#categoryMenu').html(c.join(""));
+        })
+        // fail
+        .fail(function() {
+            window.alert('关联分类取得失败');
+        });
+
+    });
+
+
+    $('#confirm-delete').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var brandName = button.data('brand-name');
+        var delUri = button.data('del-uri');
+        $("#deleteConfirmMessage").text("确定要删除["+brandName+"]吗？");
+        $(this).find('#brandDelete').attr('href', delUri);
+    });
+
+    $("#brandDelete").click(function(){
+        $("#brandForm").attr("action",$(this).attr("href")).submit();
+        return false;
+    });
+
+    $('#deleteCategoryRelationsConfirm').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var brandId = button.data('brand-id');
+        var brandName = button.data('brand-name');
+        var catelogId = button.data('catelog-id');
+        var catelogName = button.data('catelog-name');
+        $("#deleteCategoryRelationsConfirmMessage").text("确定要删除["+brandName+"]的["+catelogName+"]分类吗？");
+        $("#deleteBrandCategoryRelationCondition").empty();
+        $("#deleteBrandCategoryRelationCondition").append("<span style='display:none;' id='deleteBrandCategoryRelationConditionBrandId'>"+brandId+"</span>");
+        $("#deleteBrandCategoryRelationCondition").append("<span style='display:none;' id='deleteBrandCategoryRelationConditionCatelogId'>"+catelogId+"</span>");
+    });
 
 function deleteBrandCategoryRelations(brandId, catelogId){
-	$.ajax('/product/categoryBrandRelation/delete/ '+brandId+'/'+catelogId,
-	         {
-	           type: 'GET',
-	           dataType: 'json'
-	         }
-	       )
-	       // ok
-	       .done(function(data) {
-	         // clear result
-	         $('#result').empty();
-	         var c = [];
-	        $.each(data, function(i, item) {
-	           c.push("<tr>");
-	          c.push("<td>" + item.brandId + "</td>");
-	           c.push("<td>" + item.brandName + "</td>");
-	           c.push("<td>" + item.catelogName + "</td>");
-	           c.push("<td class='project-actions text-left'>");
-	          c.push("<button onclick='deleteBrandCategoryRelations("+item.brandId+","+item.catelogId+");' class='btn btn-danger btn-sm' >");
-	          c.push("<i class='fas fa-trash'></i>Delete</button></td>");
-	          c.push("</tr>");
-	        });
-	         $('#brandCategoryRelations_table tbody').html(c.join(""));
-	       })
-	       // error
-	      .fail(function() {
-	         window.alert('删除失败');
-	       });
+    $.ajax('/product/categoryBrandRelation/delete/ '+$("#deleteBrandCategoryRelationConditionBrandId").text()+'/'+$("#deleteBrandCategoryRelationConditionCatelogId").text(),
+    {
+        type: 'GET',
+        dataType: 'json'
+    })
+    // ok
+    .done(function(data) {
+        // clear result
+        $('#result').empty();
+        var c = [];
+        $.each(data, function(i, item) {
+            c.push("<tr>");
+            c.push("<td>" + item.brandId + "</td>");
+            c.push("<td>" + item.brandName + "</td>");
+            c.push("<td>" + item.catelogName + "</td>");
+            c.push("<td class='project-actions text-left'>");
+            c.push("<button class='btn btn-danger btn-sm' data-toggle='modal' data-target='#deleteCategoryRelationsConfirm'  data-brand-id="+item.brandId+" data-brand-name=" + item.brandName + " data-catelog-id="+item.catelogId + " data-catelog-name="+item.catelogName +" >");
+            c.push("<i class='fas fa-trash'></i>Delete</button>");
+            c.push("</td></tr>");
+        });
+        $('#brandCategoryRelations_table tbody').html(c.join(""));
+        $('#deleteCategoryRelationsConfirm').modal('toggle');
+    })
+    // error
+    .fail(function() {
+        window.alert('删除失败');
+    });
 }
 
 // 选择分类
 function selectCategory(index){
 
-	var catId = $("#"+"subsubitem"+index).attr("catId3");
-	var catName = $("#"+"subsubitem"+index).html();
-	var demo = document.getElementById("subsubitem"+index)
-		$("#categorySelectedConfirm").text(
-				$("#"+"subsubitem"+index).attr("catName1") +"==>>"+
-				$("#"+"subsubitem"+index).attr("catName2") +"==>>"+ catName);
-
-        $("#categorySelectedConfirm").append('</br><button class="btn btn-info btn-sm okBtn" onclick="confirmCategory();"> <i class="fa fa-check"></i>确认</button>');
-        $("#categorySelectedConfirm").append('<button  class="btn btn-danger btn-sm cancelBtn" onclick="clearCategory();" > <i class="fa fa-chain-broken"></i>取消</button>');
-        $("#categorySelectedConfirm").append("<span style='display:none;' id='catId'>"+catId+"</span>");
-        $("#categorySelectedConfirm").append("<span style='display:none;' id='catName'>"+catName+"</span>");
+    var catId = $("#"+"subsubitem"+index).attr("catId3");
+    var catName = $("#"+"subsubitem"+index).html();
+    var demo = document.getElementById("subsubitem"+index)
+    $("#categorySelectedConfirm").text(
+        $("#"+"subsubitem"+index).attr("catName1") +"==>>"
+        + $("#"+"subsubitem"+index).attr("catName2") +"==>>"+ catName);
+    $("#categorySelectedConfirm").append('</br><button class="btn btn-info btn-sm okBtn" onclick="confirmCategory();"> <i class="fa fa-check"></i>确认</button>');
+    $("#categorySelectedConfirm").append('<button  class="btn btn-danger btn-sm cancelBtn" onclick="clearCategory();" > <i class="fa fa-chain-broken"></i>取消</button>');
+    $("#categorySelectedConfirm").append("<span style='display:none;' id='catId'>"+catId+"</span>");
+    $("#categorySelectedConfirm").append("<span style='display:none;' id='catName'>"+catName+"</span>");
 
 }
 
 function confirmCategory(){
-
-	$.ajax('/product/categoryBrandRelation/save',
-	         {
-	           type: 'GET',
-	           data: { brandId: $("#brandId").text(), brandName: $("#brandName").text(), catelogId: $("#catId").text(), catelogName: $("#catName").text() },
-	           dataType: 'json'
-	         }
-	       )
-	       // ok
-	       .done(function(data) {
-	         // clear
-	         $('#result').empty();
-	         var c = [];
-	        $.each(data, function(i, item) {
-	           c.push("<tr>");
-	          c.push("<td>" + item.brandId + "</td>");
-	           c.push("<td>" + item.brandName + "</td>");
-	           c.push("<td>" + item.catelogName + "</td>");
-	           c.push("<td class='project-actions text-left'>");
-	          c.push("<button onclick='deleteBrandCategoryRelations("+item.brandId+","+item.catelogId+");' class='btn btn-danger btn-sm' >");
-	          c.push("<i class='fas fa-trash'></i>Delete</button></td>");
-	          c.push("</tr>");
-	        });
-	         $('#brandCategoryRelations_table tbody').html(c.join(""));
-	       })
-	       // fail
-	      .fail(function() {
-	         window.alert('取得失败');
-	       });
-	 $("#categorySelectedConfirm").empty();
+    $.ajax('/product/categoryBrandRelation/save',
+    {
+        type: 'GET',
+        data: { brandId: $("#brandId").text(), brandName: $("#brandName").text(), catelogId: $("#catId").text(), catelogName: $("#catName").text() },
+        dataType: 'json'
+    })
+    // ok
+    .done(function(data) {
+        if (data.code !='200'){
+            alert(data.msg);
+            return;
+        }
+        // clear
+        $('#result').empty();
+        var c = [];
+        $.each(data.data, function(i, item) {
+            c.push("<tr>");
+            c.push("<td>" + item.brandId + "</td>");
+            c.push("<td>" + item.brandName + "</td>");
+            c.push("<td>" + item.catelogName + "</td>");
+            c.push("<td class='project-actions text-left'>");
+            c.push("<button class='btn btn-danger btn-sm' data-toggle='modal' data-target='#deleteCategoryRelationsConfirm'  data-brand-id="+item.brandId+" data-brand-name=" + item.brandName + " data-catelog-id="+item.catelogId + " data-catelog-name="+item.catelogName +" >");
+            c.push("<i class='fas fa-trash'></i>Delete</button>");
+            c.push("</td></tr>");
+        });
+        $('#brandCategoryRelations_table tbody').html(c.join(""));
+    })
+    // fail
+    .fail(function() {
+        window.alert('取得失败');
+    });
+    $("#categorySelectedConfirm").empty();
 }
 
 function clearCategory(){
-	 $("#categorySelectedConfirm").empty();
+    $("#categorySelectedConfirm").empty();
 }
-
-
-
 
 </script>
 

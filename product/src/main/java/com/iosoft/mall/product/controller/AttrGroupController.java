@@ -36,7 +36,7 @@ public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
 
-    @GetMapping("/init")
+    @GetMapping("/list")
     public String init(Model model) {
 
         model.addAttribute("categorys", categoryService.listWithTree());
